@@ -1,99 +1,13 @@
-<!DOCTYPE html>
-<html>
-
-<head title="The Bank">
-    <script>
-        const ROOT_URL = "http://localhost:8000"
-
-        async function create_user(username) {
-            const url = ROOT_URL + "/users";
-            const res = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({username})
-            });
-            const data = await res.json();
-            return data;
-        }
-
-        async function create_account(user_id, balance, account_name=null) {
-            const url = ROOT_URL + "/accounts";
-
-            let body = {user_id, balance};
-            if (account_name) {
-                body["account_name"] = account_name
-            }
-            const res = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            });
-            const data = await res.json();
-            console.log({data});
-            return data;
-        }
-
-        async function transfer_funds(sender_id, receiver_id, amount) {
-            const url = ROOT_URL + "/transfers";
-
-            const res = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({sender_id, receiver_id, amount})
-            });
-            const data = await res.json();
-            console.log({data});
-            return data;
-        }
-
-        async function get_account_balance(account_id) {
-            const url = ROOT_URL + `/accounts/${account_id}/balance`;
-
-            const res = await fetch(url);
-            const data = await res.json();
-            console.log({data});
-            return data;
-        }
-
-        async function get_transfer_history(account_id) {
-            const url = ROOT_URL + `/accounts/${account_id}/transfer_history`;
-            const res = await fetch(url);
-            const data = await res.json();
-            console.log({date});
-            return data;
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            create_user("User 1");
-            create_account(1, 100000);
-            create_account(1, 100000);
-            setTimeout(() => {}, 1000);
-            transfer_funds(1, 2, 1);
-            transfer_funds(2, 1, 1);
-            transfer_funds(2, 1, 1);
-            transfer_funds(2, 1, 1);
-            transfer_funds(2, 1, 1);
-            transfer_funds(2, 1, 1);
-            transfer_funds(2, 1, 1);
-            transfer_funds(2, 1, 1);
-            transfer_funds(2, 1, 1);
-            get_account_balance(1);
-            get_transfer_history(1);
-        });
-
-    </script>
-    
-</head>
-
-
-<body>
-    <div></div>
-</body>
-
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Bank</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

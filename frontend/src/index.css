@@ -1,0 +1,117 @@
+
+.users {
+    display: flex;
+    flex-direction: column;
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: black 1px solid;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+.accounts {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+}
+
+#add-account {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+.headers {
+    display: flex;
+    flex-direction: row;
+}
+
+.header-elem {
+    border: black 1px solid;
+    padding: 10px;
+    width: 100px;
+    font-weight: bold;
+}
+
+.transfer-headers {
+    display: flex;
+    flex-direction: row;
+}
+
+.transfer-rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.transfer-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.transfers-wrapper {
+    margin: 10px;
+}
+
+.transfers-title {
+    margin-bottom: 10px;
+    width: 120px;
+} 
+
+.account-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.row-elem {
+    border: black 1px solid;
+    padding: 10px;
+    width: 100px;
+}
+
+.balance {
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+#add-user {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 200px;
+}
+
+#transfer-funds {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 200px;
+}
+
+.user-elem {
+    border: black 1px solid;
+    padding: 5px;
+}
+
+.dashboard-elements {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.large-elem {
+    width: 200px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info-data {
+    display: flex;
+    flex-direction: row;
+}

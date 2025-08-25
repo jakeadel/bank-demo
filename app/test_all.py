@@ -31,18 +31,18 @@ def test_create_conn():
 
 
 def test_create_user():
-    res = client.post("/user", json={"username": "Test 1"})
+    res = client.post("/users", json={"username": "Test 1"})
     assert res.status_code == 200
     assert res.json() == {"user_id": 1, "username": "Test 1"}
 
-    res = client.post("/user", json={"username": "Test 2"})
+    res = client.post("/users", json={"username": "Test 2"})
     assert res.status_code == 200
     assert res.json() == {"user_id": 2, "username": "Test 2"}
 
 
 def test_create_account():
     bad_res = client.post(
-        "/user/account",
+        "/accounts",
         json={
             "user_id": 999, 
             "account_name": "Bad", 
@@ -52,13 +52,14 @@ def test_create_account():
     assert bad_res.status_code == 404
 
     res = client.post(
-        "/user/account", 
+        "/accounts", 
         json={
-            "user_id": 1, 
+            "user_id": 1,
             "account_name": "My account", 
             "balance": 10
         }
     )
+    print("HERE", res.json())
     assert res.status_code == 200
     assert res.json() == {
         "user_id": 1,
@@ -68,10 +69,10 @@ def test_create_account():
     }
 
     res = client.post(
-        "/user/account", 
+        "/accounts", 
         json={
             "user_id": 1, 
-            "account_name": "#2 Account", 
+            "account_name": "#2 account", 
             "balance": 2000
         }
     )
@@ -79,14 +80,14 @@ def test_create_account():
     assert res.json() == {
         "user_id": 1,
         "account_id": 2,
-        "account_name": "#2 Account",
+        "account_name": "#2 account",
         "balance": 2000
     }
 
 
 def test_transfer_funds():
     insufficient_res = client.post(
-        "/transfer_funds",
+        "/transfers",
         json={
             "sender_id": 1,
             "receiver_id": 2,
@@ -96,7 +97,7 @@ def test_transfer_funds():
     assert insufficient_res.status_code == 422
 
     bad_user_res = client.post(
-        "/transfer_funds",
+        "/transfers",
         json={
             "sender_id": 999,
             "receiver_id": 2,
@@ -106,7 +107,7 @@ def test_transfer_funds():
     assert bad_user_res.status_code == 404
 
     res = client.post(
-        "/transfer_funds",
+        "/transfers",
         json={
             "sender_id": 2,
             "receiver_id": 1,
@@ -125,19 +126,19 @@ def test_transfer_funds():
 
 
 def test_get_account_balance():
-    account_dne_res = client.get("/user/account/balance?account_id=0")
+    account_dne_res = client.get("/accounts/0/balance")
     assert account_dne_res.status_code == 404
 
-    res = client.get("/user/account/balance?account_id=1")
+    res = client.get("/accounts/1/balance")
     assert res.status_code == 200
     assert res.json() == {"account_id": 1, "balance": 210}
 
 
 def test_transfer_history():
-    none_res = client.get("/user/transfer_history?account_id=0")
+    none_res = client.get("/accounts/0/transfer_history")
     none_res.status_code == 404
 
-    res = client.get("/user/transfer_history?account_id=1")
+    res = client.get("/accounts/1/transfer_history")
     res.status_code == 200
     json = res.json()
     del json["transfers"][0]["transfer_time"]

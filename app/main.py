@@ -42,6 +42,8 @@ class CreateUserRequest(BaseModel):
 def create_user(req: CreateUserRequest, conn=Depends(create_conn)):
     # Logical for this to create an account along with a user. Actually, I don't think so
     username = req.username
+    if username == "":
+        raise HTTPException(status_code=400, detail="username cannot be blank")
 
     try:
         cursor = conn.cursor()
@@ -54,7 +56,7 @@ def create_user(req: CreateUserRequest, conn=Depends(create_conn)):
 
         return {"user_id": user_id, "username": username}
     except Exception as e:
-        print("Error in create_account")
+        print("Error in create_user")
         traceback.print_exc()
         raise HTTPException(status_code=500, detail="Unable to create user")
 
@@ -83,11 +85,11 @@ def create_account(req: CreateAccountRequest, conn=Depends(create_conn)):
             "SELECT username FROM users WHERE user_id = ?;",
             (user_id,)
         )
-        res = cursor.fetchone()
-        if res == None:
+        username_res = cursor.fetchone()
+        if username_res == None:
             raise HTTPException(status_code=404, detail="Unable to find specified user")
 
-        username = res[0]
+        username = username_res[0]
 
         if account_name == None:
             cursor.execute(
@@ -100,12 +102,12 @@ def create_account(req: CreateAccountRequest, conn=Depends(create_conn)):
             cursor.execute(
                 """
                     SELECT account_id FROM accounts 
-                    WHERE account_name = ? AND user_id = ?;",
+                    WHERE account_name = ? AND user_id = ?;
                 """,
                 (account_name, user_id,)
             )
-            res = cursor.fetchone()[0]
-            if res == None:
+            res = cursor.fetchone()
+            if res != None:
                 raise HTTPException(status_code=409, detail="Duplicate account name")
 
         cursor.execute(
@@ -157,7 +159,6 @@ def perform_transfer(sender_id, receiver_id, transfer_amount, conn):
     set_balance(receiver_id, receiver_resulting_balance, conn)
 
     # Log the transfer
-    cursor = conn.cursor()
     cursor.execute(
         """
             INSERT INTO transfers (sender, receiver, transfer_amount,
@@ -190,11 +191,18 @@ def transfer_funds(req: TransferRequest, conn=Depends(create_conn)):
     sender_id = req.sender_id
     receiver_id = req.receiver_id
     transfer_amount = req.amount
+    
+    if sender_id == receiver_id:
+        raise HTTPException(
+            status_code=400, 
+            detail="Sender and Receiver must be different accounts"
+        )
     # Disallow simultaneous transfers
     with transfer_lock:
         try:
             return perform_transfer(sender_id, receiver_id, transfer_amount, conn)    
         except HTTPException:
+            conn.rollback()
             raise
         except Exception as e:
             print(f"Exception in transfer_money, sender_id: {sender_id}, receiver_id: {receiver_id}")
@@ -266,11 +274,7 @@ def format_transfers(transfer_rows, account_id):
 
 @app.get("/accounts/{account_id}/transfer_history")
 def get_transfer_history(account_id: int, conn=Depends(create_conn)):
-    # return all the transfers this account has had
-    # sort by latest
-    # Maybe highlight sender, recipient (whichever the person is)
     cursor = conn.cursor()
-    account_name = None
     transfers = None
 
     try:
@@ -291,12 +295,11 @@ def get_transfer_history(account_id: int, conn=Depends(create_conn)):
                 receiver_resulting_balance, transfer_time
                 FROM transfers
                 WHERE sender = ? OR receiver = ?
-                ORDER BY transfer_time DESC;
+                ORDER BY transfer_id ASC;
             """,
             (account_id, account_id,)
         )
         res = cursor.fetchall()
-        print("HERE", res)
         transfers = format_transfers(res, account_id)
     except HTTPException:
         raise
@@ -338,18 +341,14 @@ def format_accounts(account_rows):
 
                 user_accounts[row[0]] = user
 
-        print("HERE", user_accounts.values())
         return list(user_accounts.values()) # No need for the keys
     except Exception as e:
         print("Error in formatAccounts", e)
         traceback.print_exc()
 
 
-@app.get("/get_all_accounts")
-def get_all_accounts(conn=Depends(create_conn)):
-    # Return money for all accounts
-    # Organize by user
-
+@app.get("/users")
+def get_all_users(conn=Depends(create_conn)):
     try:
         cursor = conn.cursor()
         cursor.execute(
@@ -361,16 +360,14 @@ def get_all_accounts(conn=Depends(create_conn)):
             """, ()
         )
         res = cursor.fetchall()
-        accounts = format_accounts(res)
-        print("ACCOUNTS", accounts)
+        users = format_accounts(res)
+        return users
     except Exception as e:
-        print("Exception in get_all_accounts:", e)
+        print("Exception in get_all_users:", e)
         raise HTTPException(
             status_code=500, 
-            detail="Unable to return all account info"
+            detail="Unable to return all user info"
         )
-
-    return {"accounts": accounts}
 
 
 @app.get("/health")
@@ -388,3 +385,4 @@ def init_db():
         cursor.executescript(file.read())
 
     conn.commit()
+    conn.close()

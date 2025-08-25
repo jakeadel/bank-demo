@@ -7,16 +7,21 @@ Install instructions:
 
 Run with: fastapi dev main.py
 
+API Reference
+# Create User
+POST /users
+
+
 Extensions:
     - support multiple currencies
         - include currency parameter to transfer_money endpoint
         - convert function
-    - Make more distributed
-    - Would probably want to disallow duplicate account names per user
 
-    - User uuid for user_id and account_id for security
-        - Or just use jwt tokens to identify them from the frontend
-        - jwt would contain user_id when decoded
+
+
+Improvements:
+    - Add authentication, use JWT tokens
+    - More structured logging
 
 Maybe split routes into user/account, user/account/balance user/account/transactions or something
 

@@ -26,19 +26,3 @@ CREATE TABLE IF NOT EXISTS transfers (
     FOREIGN KEY(sender) REFERENCES accounts(account_id),
     FOREIGN KEY(receiver) REFERENCES accounts(account_id)
 );
-
-/*
--- Create a couple users and accounts
-INSERT INTO users (user_id, name) VALUES (1, "User 1");
-INSERT INTO users (user_id, name) VALUES (2, "User 2");
-INSERT INTO accounts (user_id, amount)
-VALUES (1, 10000);
-INSERT INTO accounts (user_id, amount);
-VALUES (SELECT user_id FROM users WHERE name = "User 2", 10000);
-
--- come back to this later
-
--- Create a couple fake transactions
-INSERT INTO transactions (sender, recipient, transaction_time)
-VALUES()
-*/

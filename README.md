@@ -1,16 +1,32 @@
 # Bank Demo App
 
-
-## Install instructions:
+## Backend Install Instructions:
     - pip3 install "fastapi[standard]"
     - requirements.txt
-    - Run tests: pytest /app
 
-Run with: from within /app, fastapi dev main.py
+## Frontend Install Instructions:
+From within the /frontend directory:
+```bash
+npm install
+```
 
+### Run the Backend locally
+From within the /app directory:
+```bash
+fastapi dev main.py
+```
 
-## Notes:
-    - Money is held in Cents
+### Run backend tests
+From within the /app directory:
+```bash
+pytest
+```
+
+### Run the Frontend locally
+From within the /frontend directory:
+```bash
+npm run dev
+```
 
 ## Improvements:
     - Add authentication, use JWT tokens
@@ -21,6 +37,9 @@ Run with: from within /app, fastapi dev main.py
 
 
 # API Reference
+
+### Notes:
+- Money is held in cents
 
 ### Create User
 **POST** `/users`

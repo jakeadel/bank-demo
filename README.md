@@ -16,17 +16,23 @@ From within the `/app` directory:
 fastapi dev main.py
 ```
 
+The backend will run at http://localhost:8000 by default.
+
 ### Run backend tests
 From within the `/app` directory:
 ```bash
 pytest
 ```
 
-### Run the Frontend locally
+### Run the Web App locally
 From within the `/frontend` directory:
 ```bash
 npm run dev
 ```
+
+The web app will run at http://localhost:5173 by default
+
+The web app is setup to hit http://localhost:8000 for the backend endpoints. To change the url, edit the ROOT_URL variable in `/frontend/src/App.jsx`
 
 ## Improvements:
     - Add authentication, use JWT tokens
@@ -50,6 +56,12 @@ Request:
     "username": "user_123"
 }
 ```
+
+curl --location 'http://localhost:8000/users' \
+--header 'Content-Type: application/json' \
+--data '{
+   "username": "user_123"
+}'
 
 Response:
 ```json
@@ -76,6 +88,14 @@ Request:
 }
 ```
 Note: balance is in Cents
+
+curl --location 'http://localhost:8000/accounts' \
+--header 'Content-Type: application/json' \
+--data '{
+    "account_name": "account_123",
+    "user_id": 1,
+    "balance": 100
+}'
 
 Response:
 ```json
@@ -110,6 +130,14 @@ Note: sender_id and receiver_id are account_ids
 
 Note: transfer_amount is in Cents
 
+curl --location 'http://localhost:8000/transfers' \
+--header 'Content-Type: application/json' \
+--data '{
+    "sender_id": 1,
+    "receiver_id": 2,
+    "transfer_amount": 100
+}'
+
 Response:
 ```json
 {
@@ -131,6 +159,8 @@ Response:
 ### Get Account Balance
 **GET** /accounts/{account_id}/balance
 
+curl --location 'http://localhost:8000/accounts/1/balance'
+
 Response:
 ```json
 {
@@ -146,6 +176,8 @@ Response:
 
 ## Get Account Transfer History
 **GET** /accounts/{account_id}/transfer_history
+
+curl --location 'http://localhost:8000/accounts/1/transfer_history'
 
 Response:
 ```json

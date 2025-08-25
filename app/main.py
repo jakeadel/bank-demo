@@ -35,6 +35,7 @@ def create_conn():
         if conn:
             conn.close()
 
+
 class CreateUserRequest(BaseModel):
     username: str
 
@@ -180,6 +181,7 @@ def perform_transfer(sender_id, receiver_id, transfer_amount, conn):
         "sender_resulting_balance": sender_resulting_balance,
         "receiver_resulting_balance": receiver_resulting_balance
     }
+
 
 class TransferRequest(BaseModel):
     sender_id: int

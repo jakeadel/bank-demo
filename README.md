@@ -6,7 +6,7 @@
     - requirements.txt
     - Run tests: pytest /app
 
-Run with: fastapi dev main.py
+Run with: from within /app, fastapi dev main.py
 
 ## Improvements:
     - Add authentication, use JWT tokens
@@ -20,6 +20,7 @@ Run with: fastapi dev main.py
 
 ### Create User
 **POST** `/users`
+
 Request:
 ```json
 {"username": "user_123"}
@@ -30,11 +31,14 @@ Response:
 {"user_id": 1, "username": "user_123"}
 ```
 
-Error codes:
+**Error codes:**
+    - 422: missing required field
     - 400: blank username
     - 500: unknown error
 
 ### Create Account
+**POST** /accounts
+
 Request:
 ```json
 {"account_name": "account_123", "user_id": 1, "balance": 100}
@@ -44,5 +48,29 @@ Note: balance is in Cents
 Response:
 ```json
 {"account_id": 1, "account_name": "account_123", "user_id": 1, "balance": 100}
+```
+
+**Error codes:**
+    - 422: missing required field
+    - 400: negative input balance
+    - 404: unable to find input user
+    - 409: duplicate account name
+    - 500: unknown error
+
+### Transfer Funds
+**POST** /transfers
+
+Request:
+```json
+{"sender_id": 1, "receiver_id": 2, "transfer_amount": 100}
+```
+
+Note: sender_id and receiver_id are account_ids
+
+Note: transfer_amount is in Cents
+
+Response:
+```json
+{"transfer_id": 1, "sender_id": 1, "receiver_id": 2, "transfer_amount": 100, "sender_resulting_balance": 100, "receiver_resulting_balance": 200}
 ```
 

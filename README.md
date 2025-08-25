@@ -5,25 +5,25 @@
     - requirements.txt
 
 ## Frontend Install Instructions:
-From within the /frontend directory:
+From within the `/frontend` directory:
 ```bash
 npm install
 ```
 
 ### Run the Backend locally
-From within the /app directory:
+From within the `/app` directory:
 ```bash
 fastapi dev main.py
 ```
 
 ### Run backend tests
-From within the /app directory:
+From within the `/app` directory:
 ```bash
 pytest
 ```
 
 ### Run the Frontend locally
-From within the /frontend directory:
+From within the `/frontend` directory:
 ```bash
 npm run dev
 ```

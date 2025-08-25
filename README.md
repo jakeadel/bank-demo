@@ -1,30 +1,48 @@
+# Bank Demo App
 
 
-
-Install instructions:
+## Install instructions:
     - pip3 install "fastapi[standard]"
     - requirements.txt
+    - Run tests: pytest /app
 
 Run with: fastapi dev main.py
 
-API Reference
-# Create User
-POST /users
-
-
-Extensions:
-    - support multiple currencies
-        - include currency parameter to transfer_money endpoint
-        - convert function
-
-
-
-Improvements:
+## Improvements:
     - Add authentication, use JWT tokens
     - More structured logging
+    - Build out further endpoints
+        - PUT, DELETE for users, accounts, transfers
+    - 
 
-Maybe split routes into user/account, user/account/balance user/account/transactions or something
 
-Need to write tests!
+# API Reference
 
-Write a little spec
+### Create User
+**POST** `/users`
+Request:
+```json
+{"username": "user_123"}
+```
+
+Response:
+```json
+{"user_id": 1, "username": "user_123"}
+```
+
+Error codes:
+    - 400: blank username
+    - 500: unknown error
+
+### Create Account
+Request:
+```json
+{"account_name": "account_123", "user_id": 1, "balance": 100}
+```
+Note: balance is in Cents
+
+Response:
+```json
+{"account_id": 1, "account_name": "account_123", "user_id": 1, "balance": 100}
+```
+

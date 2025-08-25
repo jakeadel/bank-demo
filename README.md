@@ -27,12 +27,17 @@ Run with: from within /app, fastapi dev main.py
 
 Request:
 ```json
-{"username": "user_123"}
+{
+    "username": "user_123"
+}
 ```
 
 Response:
 ```json
-{"user_id": 1, "username": "user_123"}
+{
+    "user_id": 1, 
+    "username": "user_123"
+}
 ```
 
 **Error codes:**
@@ -45,13 +50,22 @@ Response:
 
 Request:
 ```json
-{"account_name": "account_123", "user_id": 1, "balance": 100}
+{
+    "account_name": "account_123", 
+    "user_id": 1, 
+    "balance": 100
+}
 ```
 Note: balance is in Cents
 
 Response:
 ```json
-{"account_id": 1, "account_name": "account_123", "user_id": 1, "balance": 100}
+{
+    "account_id": 1, 
+    "account_name": "account_123", 
+    "user_id": 1, 
+    "balance": 100
+}
 ```
 
 **Error codes:**
@@ -66,7 +80,11 @@ Response:
 
 Request:
 ```json
-{"sender_id": 1, "receiver_id": 2, "transfer_amount": 100}
+{
+    "sender_id": 1, 
+    "receiver_id": 2, 
+    "transfer_amount": 100
+}
 ```
 
 Note: sender_id and receiver_id are account_ids
@@ -75,7 +93,14 @@ Note: transfer_amount is in Cents
 
 Response:
 ```json
-{"transfer_id": 1, "sender_id": 1, "receiver_id": 2, "transfer_amount": 100, "sender_resulting_balance": 100, "receiver_resulting_balance": 200}
+{
+    "transfer_id": 1, 
+    "sender_id": 1, 
+    "receiver_id": 2, 
+    "transfer_amount": 100, 
+    "sender_resulting_balance": 100, 
+    "receiver_resulting_balance": 200
+}
 ```
 
 **Error codes:**

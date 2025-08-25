@@ -36,9 +36,9 @@ Response:
 ```
 
 **Error codes:**
-    - 422: missing required field
-    - 400: blank username
-    - 500: unknown error
+- 422: Missing required field
+- 400: Blank username
+- 500: Unknown error
 
 ### Create Account
 **POST** /accounts
@@ -55,11 +55,11 @@ Response:
 ```
 
 **Error codes:**
-- 422: missing required field
-- 400: negative input balance
-- 404: unable to find input user
-- 409: duplicate account name
-- 500: unknown error
+- 422: Missing required field
+- 400: Negative input balance
+- 404: Unable to find input user
+- 409: Duplicate account name
+- 500: Unknown error
 
 ### Transfer Funds
 **POST** /transfers
@@ -78,7 +78,11 @@ Response:
 {"transfer_id": 1, "sender_id": 1, "receiver_id": 2, "transfer_amount": 100, "sender_resulting_balance": 100, "receiver_resulting_balance": 200}
 ```
 
-
+**Error codes:**
+- 422: Missing required field
+- 400: Sender_id and receiver_id are the same or sender lacks requisite funds
+- 404: Sender or receiver account not found
+- 500: Unknown error
 
 ### Get Account Balance
 **GET** /accounts/{account_id}/balance
@@ -91,7 +95,12 @@ Response:
 }
 ```
 
-## Get Account Transfers
+**Error codes:**
+- 422: Missing required field
+- 404: Unable to find account
+- 500: Unknown error
+
+## Get Account Transfer History
 **GET** /accounts/{account_id}/transfer_history
 
 Response:
@@ -111,3 +120,8 @@ Response:
     ]
 }
 ```
+
+**Error codes**
+- 422: Missing required field
+- 404: Unable to find account
+- 500: Unkown error

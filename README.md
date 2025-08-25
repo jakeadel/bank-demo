@@ -8,6 +8,10 @@
 
 Run with: from within /app, fastapi dev main.py
 
+
+## Notes:
+    - Money is held in Cents
+
 ## Improvements:
     - Add authentication, use JWT tokens
     - More structured logging
@@ -51,11 +55,11 @@ Response:
 ```
 
 **Error codes:**
-    - 422: missing required field
-    - 400: negative input balance
-    - 404: unable to find input user
-    - 409: duplicate account name
-    - 500: unknown error
+- 422: missing required field
+- 400: negative input balance
+- 404: unable to find input user
+- 409: duplicate account name
+- 500: unknown error
 
 ### Transfer Funds
 **POST** /transfers
@@ -74,3 +78,36 @@ Response:
 {"transfer_id": 1, "sender_id": 1, "receiver_id": 2, "transfer_amount": 100, "sender_resulting_balance": 100, "receiver_resulting_balance": 200}
 ```
 
+
+
+### Get Account Balance
+**GET** /accounts/{account_id}/balance
+
+Response:
+```json
+{
+    "account_id": 1,
+    "balance": 100
+}
+```
+
+## Get Account Transfers
+**GET** /accounts/{account_id}/transfer_history
+
+Response:
+```json
+{
+    "account_id": 1,
+    "transfers": [
+        {
+            "transfer_id": 1,
+            "account_role": "sender",
+            "sender_id": 1,
+            "receiver_id": 2,
+            "transfer_amount": 15,
+            "resulting_balance": 115,
+            "transfer_time": "2025-08-25 21:49:59"
+        }
+    ]
+}
+```

@@ -75,6 +75,15 @@
     width: 100px;
 }
 
+.user-elem {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.action-title {
+    margin-bottom: 5px;
+}
+
 .balance {
     transition: all 0.3s ease;
     font-weight: bold;

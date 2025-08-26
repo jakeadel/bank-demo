@@ -123,6 +123,7 @@ function App() {
                 <h1 className='dashboard-title'>Admin Dashboard</h1>
                 <div className='dashboard-elements'>
                     <form id="add-user" onSubmit={addUser}>
+                        <h3 className='action-title'>Create New User</h3>
                         <input 
                             id="username-field"
                             type="text"
@@ -130,9 +131,10 @@ function App() {
                             value={newUsername}
                             onChange={(elem) => setNewUsername(elem.target.value)}
                         />
-                        <button type="submit">Create New User</button>
+                        <button type="submit">Submit</button>
                     </form>
                     <form id="add-account" onSubmit={addAccount}>
+                        <h3 className='action-title'>Create New Account</h3>
                         <input 
                             id="user-id-field"
                             type="text"
@@ -156,9 +158,10 @@ function App() {
                             value={newAccountBalance}
                             onChange={(elem) => setNewAccountBalance(elem.target.value)}
                         />
-                        <button type="submit">Create New Account</button>
+                        <button type="submit">Submit</button>
                     </form>
                     <form id="transfer-funds" onSubmit={transferFunds}>
+                        <h3 className='action-title'>Transfer Funds</h3>
                         <input 
                             id="amount-field"
                             type="number"
@@ -184,7 +187,7 @@ function App() {
                             value={receiverId}
                             onChange={(elem) => setReceiverId(elem.target.value)}
                         />
-                        <button type="submit">Transfer Funds</button>
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
             </div>
@@ -205,14 +208,7 @@ function User({user, updateTransfers}) {
     return (
         <div className='user' key={user.id}>
             <div className='user-info'>
-                <div className='user-info-data'>
-                    <span className='header-elem'>User ID</span>
-                    <span className='header-elem'>Username</span>
-                </div>
-                <div className='user-info-data'>
-                    <span className='row-elem'>{user.user_id}</span>
-                    <span className='row-elem'>{user.username}</span>
-                </div>
+                <h2 className='user-elem'>User: {user.username}, ID: {user.user_id}</h2>
             </div>
             
             {user.accounts?.length > 0 && (
@@ -276,7 +272,7 @@ function Account({account, updateTransfers}) {
                 <span className='row-elem'>{account.account_name}</span>
                 <span className='row-elem balance'>{formatMoney(account.balance)}</span>
                 <span className='row-elem'>
-                    <button className='action-button' onClick={handleSeeTransfers}>See Transfers</button>
+                    <button className='action-button' onClick={handleSeeTransfers}>Transfer History</button>
                 </span>
             </div>
             {showTransfers && (

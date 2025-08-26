@@ -1,5 +1,20 @@
 # Bank Demo App
 
+## Table of Contents
+- [Backend Install Instructions](#backend-install-instructions)
+- [Frontend Install Instructions](#frontend-install-instructions)
+- [Run the Backend locally](#run-the-backend-locally)
+- [Demo Data](#demo-data)
+- [Run backend tests](#run-backend-tests)
+- [Run the Web App locally](#run-the-web-app-locally)
+- [Improvements](#improvements)
+- [API Reference](#api-reference)
+  - [Create User](#create-user)
+  - [Create Account](#create-account)
+  - [Transfer Funds](#transfer-funds)
+  - [Get Account Balance](#get-account-balance)
+  - [Get Account Transfer History](#get-account-transfer-history)
+
 ## Backend Install Instructions:
     - pip install -r requirements.txt
 
@@ -21,9 +36,9 @@ To change the backend URL, set the VITE_ROOT_URL variable in `.env.local` (dev) 
 ### Demo Data
 Some users, accounts, and transfers are preloaded in schema.sql
 - John (user_id=1)
-    - account_name="John's checking", account_id=1, balance=$10.00
-    - account_name="John's savings", account_id=2, balance=$1.00
-- Paul (user_id=2) has accont_name="Paul's account", account_id=3, balance=$5.00
+    - account_name="John's checking", account_id=1, balance=1000
+    - account_name="John's savings", account_id=2, balance=100
+- Paul (user_id=2) has accont_name="Paul's account", account_id=3, balance=500
 - Example transfer: John transfers 50 to Paul
 
 ### Run backend tests
@@ -47,13 +62,14 @@ The web app is setup to hit http://localhost:8000 for the backend endpoints. To 
     - More structured logging
     - Build out further endpoints
         - PUT, DELETE for users, accounts, transfers
+        - GET for users, accounts
     - Hold common repeated requests in an in-memory data structure on server
         - get balance
         - get transfers per account
 
 # API Reference
 
-### Note: All money values are held in cents
+### Note: All money values are stored as cents but displayed as dollars
 
 ### Create User
 **POST** `/users`
@@ -65,11 +81,13 @@ Request:
 }
 ```
 
+```bash
 curl --location 'http://localhost:8000/users' \
 --header 'Content-Type: application/json' \
 --data '{
    "username": "user_123"
 }'
+```
 
 Response:
 ```json
@@ -96,6 +114,7 @@ Request:
 }
 ```
 
+```bash
 curl --location 'http://localhost:8000/accounts' \
 --header 'Content-Type: application/json' \
 --data '{
@@ -103,6 +122,7 @@ curl --location 'http://localhost:8000/accounts' \
     "user_id": 1,
     "balance": 100
 }'
+```
 
 Response:
 ```json
@@ -135,6 +155,7 @@ Request:
 
 Note: sender_id and receiver_id are account_ids
 
+```bash
 curl --location 'http://localhost:8000/transfers' \
 --header 'Content-Type: application/json' \
 --data '{
@@ -142,6 +163,7 @@ curl --location 'http://localhost:8000/transfers' \
     "receiver_id": 2,
     "transfer_amount": 100
 }'
+```
 
 Response:
 ```json
@@ -164,7 +186,9 @@ Response:
 ### Get Account Balance
 **GET** /accounts/{account_id}/balance
 
+```bash
 curl --location 'http://localhost:8000/accounts/1/balance'
+```
 
 Response:
 ```json
@@ -182,7 +206,9 @@ Response:
 ## Get Account Transfer History
 **GET** /accounts/{account_id}/transfer_history
 
+```bash
 curl --location 'http://localhost:8000/accounts/1/transfer_history'
+```
 
 Response:
 ```json
@@ -206,3 +232,30 @@ Response:
 - 422: Missing required field (Handled by Pydantic validation)
 - 404: Unable to find account
 - 500: Unkown error
+
+## Get users
+**GET** /users
+
+```bash
+curl --location 'http://localhost:8000/users'
+```
+
+Response:
+```json
+[
+    {
+        "user_id": 1,
+        "username": "John",
+        "accounts": [
+            {
+                "account_id": 1,
+                "account_name": "John's checking",
+                "balance": 1000
+            }
+        ]
+    }
+]
+```
+
+**Error Codes:**
+- 500 Unknown error

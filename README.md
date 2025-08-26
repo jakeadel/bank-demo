@@ -24,7 +24,7 @@ From within the `/app` directory:
 pip install -r requirements.txt
 ```
 
-### Run the Backend locally
+### Run the Backend Locally
 From within the `/app` directory:
 ```bash
 fastapi dev main.py
@@ -32,7 +32,7 @@ fastapi dev main.py
 
 The backend will run at http://localhost:8000 by default.
 
-### Run Backend Integration tests
+### Run Backend Integration Tests
 From within the `/app` directory:
 ```bash
 pytest
@@ -44,7 +44,7 @@ From within the `/frontend` directory:
 npm install
 ```
 
-### Run the Web App locally
+### Run the Web App Locally
 From within the `/frontend` directory:
 ```bash
 npm run dev

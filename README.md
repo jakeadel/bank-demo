@@ -70,7 +70,7 @@ The web app is setup to hit http://localhost:8000 for the backend endpoints. To 
 
 # API Reference
 
-### Note: All money values are stored as cents but displayed as dollars
+#### Note: All money values are stored as cents but displayed as dollars
 
 ### Create User
 **POST** `/users`

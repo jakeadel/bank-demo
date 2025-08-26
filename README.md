@@ -68,7 +68,7 @@ Some users, accounts, and transfers are preloaded in test_data.sql. test_data.sq
     - Build out further endpoints
         - PUT, DELETE for users, accounts, transfers
         - GET for users/{user_id}, accounts/{account_id}
-    - Hold common repeated requests in an in-memory data structure on server
+    - Cache commonly repeated read results
         - get balance
         - get transfers per account
     - Better frontend UI

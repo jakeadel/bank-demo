@@ -17,6 +17,7 @@
   - [Get Users](#get-users)
 
 ## Backend Install Instructions:
+From within the `/app` directory:
     - pip install -r requirements.txt
 
 ## Frontend Install Instructions:

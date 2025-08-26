@@ -212,12 +212,6 @@ function App() {
                     ))}
                 </div>
             </div>
-            <div className='error-wrapper'>
-                <div className='error-box'>Error log:</div>
-                {errorMessages.map((message) => (
-                    <p>{message}</p>
-                ))}
-            </div>
         </>
     )
 }

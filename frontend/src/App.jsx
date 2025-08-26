@@ -200,6 +200,7 @@ function App() {
                         />
                         <button type="submit">Submit</button>
                     </form>
+                    <p>Last error message: {errorMessages[errorMessages.length-1]}</p>
                 </div>
             </div>
             <div className='users-wrapper'>
@@ -335,6 +336,19 @@ function formatMoney(cents) {
     return `$${parseFloat(cents / 100).toFixed(2)}`
 }
 
+async function throwError(res) {
+    const status = res.status;
+    const data = await res.json();
+    if (status === 422) {
+        const detail = data.detail[0]?.msg;
+        throw new Error(detail);
+    }
+    else {
+        const detail = data.detail;
+        throw new Error(detail);
+    }
+}
+
 async function create_user(username) {
     const url = ROOT_URL + "/users";
     const res = await fetch(url, {
@@ -349,7 +363,7 @@ async function create_user(username) {
         return data;
     }
     else {
-        throw new Error(res.statusText);
+        await throwError(res);
     }
 }
 
@@ -372,7 +386,7 @@ async function create_account(user_id, balance, account_name=null) {
         return data;
     }
     else {
-        throw new Error(res.statusText);
+       await throwError(res); 
     }
 }
 
@@ -391,7 +405,7 @@ async function transfer_funds(sender_id, receiver_id, amount) {
         return data;
     }
     else {
-        throw new Error(res.statusText);
+        await throwError(res);
     }
 }
 
@@ -403,7 +417,7 @@ async function get_account_balance(account_id) {
         return data;
     }
     else {
-        throw new Error(res.statusText);
+        await throwError(res);
     }
 }
 
@@ -415,7 +429,7 @@ async function get_transfer_history(account_id) {
         return data;
     }
     else {
-        throw new Error(res.statusText);
+        await throwError(res);
     }
     
 }
@@ -423,8 +437,13 @@ async function get_transfer_history(account_id) {
 async function get_users() {
     const url = ROOT_URL + '/users';
     const res = await fetch(url);
-    const data = await res.json();
-    return data;
+    if (res.ok) {
+        const data = await res.json();
+        return data;
+    }
+    else {
+        await throwError(res);
+    }
 }
 
 export default App;

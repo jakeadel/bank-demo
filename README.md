@@ -16,6 +16,7 @@ fastapi dev main.py
 ```
 
 The backend will run at http://localhost:8000 by default.
+To change the backend URL, set the VITE_ROOT_URL variable in `.env.local` (dev) or `.env.production` (prod)
 
 ### Demo Data
 Some users, accounts, and transfers are preloaded in schema.sql

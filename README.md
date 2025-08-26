@@ -22,12 +22,6 @@ From within the `/app` directory:
 pip install -r requirements.txt
 ```
 
-## Frontend Install Instructions:
-From within the `/frontend` directory:
-```bash
-npm install
-```
-
 ### Run the Backend locally
 From within the `/app` directory:
 ```bash
@@ -36,18 +30,16 @@ fastapi dev main.py
 
 The backend will run at http://localhost:8000 by default.
 
-### Demo Data
-Some users, accounts, and transfers are preloaded in schema.sql. schema.sql is executed on server startup in the init_db() function.
-- John (user_id=1)
-    - account_name="John's checking", account_id=1, balance=1000 ($10)
-    - account_name="John's savings", account_id=2, balance=100 ($1)
-- Paul (user_id=2) has accont_name="Paul's account", account_id=3, balance=500 ($5)
-- Example transfer: John transfers 50 ($0.50) to Paul
-
 ### Run Backend Integration tests
 From within the `/app` directory:
 ```bash
 pytest
+```
+
+## Frontend Install Instructions:
+From within the `/frontend` directory:
+```bash
+npm install
 ```
 
 ### Run the Web App locally
@@ -59,6 +51,14 @@ npm run dev
 The web app will run at http://localhost:5173 by default
 
 The web app is setup to hit http://localhost:8000 for the backend endpoints. To change the target URL, set the VITE_ROOT_URL variable in `.env.local` (dev) or `.env.production` (prod)
+
+### Demo Data
+Some users, accounts, and transfers are preloaded in schema.sql. schema.sql is executed on server startup in the init_db() function.
+- John (user_id=1)
+    - account_name="John's checking", account_id=1, balance=1000 ($10)
+    - account_name="John's savings", account_id=2, balance=100 ($1)
+- Paul (user_id=2) has accont_name="Paul's account", account_id=3, balance=500 ($5)
+- Example transfer: John transfers 50 ($0.50) to Paul
 
 ## Improvement Areas:
     - Add authentication, use JWTs

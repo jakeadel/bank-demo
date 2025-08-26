@@ -17,7 +17,7 @@ function App() {
 
     const [updateTransfers, setUpdateTransfers] = useState(0);
 
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessages, setErrorMessages] = useState([]);
 
     useEffect(() => {
         async function get_user_data() {
@@ -31,6 +31,12 @@ function App() {
         get_user_data();
     }, []);
 
+    function addError(message, error) {
+        let errors_copy = [...errorMessages];
+        errors_copy.push(`${message}, ${error}`);
+        setErrorMessages(errors_copy);
+    }
+
     async function addUser(event) {
         event.preventDefault();
         let res;
@@ -38,12 +44,14 @@ function App() {
             res = await create_user(newUsername);
         } catch (error) {
             console.log("Error adding user", {error});
+            addError("Error adding user", error);
             return;
         }
         const {user_id, username} = res;
         let users_copy = [...users];
         users_copy.push({user_id, username, account: []});
         setUsers(users_copy);
+        setNewUsername("");
     }
 
     async function addAccount(event) {
@@ -53,6 +61,7 @@ function App() {
             res = await create_account(newAccountUserId, newAccountBalance*100, newAccountName);
         } catch (error) {
             console.log("Error adding account", {error});
+            addError("Error adding account", error);
             return;
         }
         const {account_id} = res;
@@ -89,6 +98,7 @@ function App() {
             const res = await transfer_funds(senderId, receiverId, transferAmount*100);
         } catch (error) {
             console.log("Error transferring funds", {error});
+            addError("Error transferring funds", error);
             return;
         }
 
@@ -105,6 +115,7 @@ function App() {
                             users_copy[i].accounts[j].balance = balance;
                         } catch (error) {
                             console.log("Unable to refresh funds", {error});
+                            addError("Unable to refresh funds", error);
                         }
                     }
                 }
@@ -196,19 +207,25 @@ function App() {
                     <h2 className='users-title'>Users</h2>
                     
                     {users.map((user) => (
-                        <User user={user} updateTransfers={updateTransfers}/>
+                        <User user={user} updateTransfers={updateTransfers} addError={addError}/>
                     ))}
                 </div>
+            </div>
+            <div className='error-wrapper'>
+                <div className='error-box'>Error log:</div>
+                {errorMessages.map((message) => (
+                    <p>{message}</p>
+                ))}
             </div>
         </>
     )
 }
 
-function User({user, updateTransfers}) {
+function User({user, updateTransfers, addError}) {
     return (
         <div className='user' key={user.id}>
             <div className='user-info'>
-                <h2 className='user-elem'>User: {user.username}, ID: {user.user_id}</h2>
+                <h2 className='user-elem'>Username: {user.username}, ID: {user.user_id}</h2>
             </div>
             
             {user.accounts?.length > 0 && (
@@ -220,7 +237,7 @@ function User({user, updateTransfers}) {
                         <span className='header-elem'>Balance</span>
                     </div>
                     {user.accounts?.map((account) => (
-                        <Account account={account} updateTransfers={updateTransfers} />
+                        <Account account={account} updateTransfers={updateTransfers} addError={addError} />
                     ))}
                 </div>
             )}
@@ -229,7 +246,7 @@ function User({user, updateTransfers}) {
     );
 }
 
-function Account({account, updateTransfers}) {
+function Account({account, updateTransfers, addError}) {
     const [showTransfers, setShowTransfers] = useState(false);
     const [transfers, setTransfers] = useState([]);
 
@@ -242,7 +259,8 @@ function Account({account, updateTransfers}) {
                     setTransfers(res.transfers);
                 }
                 catch (error) {
-                    console.log("Error getting transactions", {error})
+                    console.log("Unable to get transfers", {error})
+                    addError("Unable to get transfers", error);
                 }
             })();
         }
@@ -258,7 +276,8 @@ function Account({account, updateTransfers}) {
             res = await get_transfer_history(account.account_id);
         }
         catch (error) {
-            console.log("Error getting transactions", {error});
+            console.log("Unable to get transfers", {error});
+            addError("Unable to get transfers", error);
             return;
         }
         setTransfers(res.transfers);

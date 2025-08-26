@@ -345,7 +345,7 @@ def format_accounts(account_rows):
 
         return list(user_accounts.values()) # No need for the keys
     except Exception as e:
-        print("Error in formatAccounts", e)
+        print("Error in format_accounts", e)
         traceback.print_exc()
 
 
@@ -374,7 +374,7 @@ def get_all_users(conn=Depends(create_conn)):
 
 @app.get("/health")
 def health():
-    return "Healthy"
+    return {"message": "Healthy"}
 
 
 @app.on_event("startup")

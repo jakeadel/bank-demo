@@ -32,17 +32,16 @@ fastapi dev main.py
 ```
 
 The backend will run at http://localhost:8000 by default.
-To change the backend URL, set the VITE_ROOT_URL variable in `.env.local` (dev) or `.env.production` (prod)
 
 ### Demo Data
-Some users, accounts, and transfers are preloaded in schema.sql
+Some users, accounts, and transfers are preloaded in schema.sql. schema.sql is executed on server startup in the init_db() function.
 - John (user_id=1)
-    - account_name="John's checking", account_id=1, balance=1000
-    - account_name="John's savings", account_id=2, balance=100
-- Paul (user_id=2) has accont_name="Paul's account", account_id=3, balance=500
-- Example transfer: John transfers 50 to Paul
+    - account_name="John's checking", account_id=1, balance=1000 ($10)
+    - account_name="John's savings", account_id=2, balance=100 ($1)
+- Paul (user_id=2) has accont_name="Paul's account", account_id=3, balance=500 ($5)
+- Example transfer: John transfers 50 ($0.50) to Paul
 
-### Run backend tests
+### Run Backend Integration tests
 From within the `/app` directory:
 ```bash
 pytest
@@ -56,17 +55,18 @@ npm run dev
 
 The web app will run at http://localhost:5173 by default
 
-The web app is setup to hit http://localhost:8000 for the backend endpoints. To change the url, edit the ROOT_URL variable in `/frontend/src/App.jsx`
+The web app is setup to hit http://localhost:8000 for the backend endpoints. To change the target URL, set the VITE_ROOT_URL variable in `.env.local` (dev) or `.env.production` (prod)
 
-## Improvements:
+## Improvement Areas:
     - Add authentication, use JWTs
-    - More structured logging
+    - More structured logging instead of using print statements
     - Build out further endpoints
         - PUT, DELETE for users, accounts, transfers
-        - GET for users, accounts
+        - GET for users/{user_id}, accounts/{account_id}
     - Hold common repeated requests in an in-memory data structure on server
         - get balance
         - get transfers per account
+    - Use error codes for better frontend error messages
 
 # API Reference
 
@@ -98,7 +98,7 @@ Response:
 }
 ```
 
-**Error codes:**
+**Error Codes:**
 - 422: Missing required field (Handled by Pydantic validation)
 - 400: Blank username
 - 500: Unknown error
@@ -135,7 +135,7 @@ Response:
 }
 ```
 
-**Error codes:**
+**Error Codes:**
 - 422: Missing required field (Handled by Pydantic validation)
 - 400: Negative input balance
 - 404: Unable to find input user
@@ -178,7 +178,7 @@ Response:
 }
 ```
 
-**Error codes:**
+**Error Codes:**
 - 422: Missing required field (Handled by Pydantic validation)
 - 400: Sender_id and receiver_id are the same or sender lacks requisite funds
 - 404: Sender or receiver account not found
@@ -199,12 +199,12 @@ Response:
 }
 ```
 
-**Error codes:**
+**Error Codes:**
 - 422: Missing required field (Handled by Pydantic validation)
 - 404: Unable to find account
 - 500: Unknown error
 
-## Get Account Transfer History
+### Get Account Transfer History
 **GET** /accounts/{account_id}/transfer_history
 
 ```bash
@@ -234,7 +234,7 @@ Response:
 - 404: Unable to find account
 - 500: Unkown error
 
-## Get Users
+### Get Users
 **GET** /users
 
 ```bash
@@ -259,4 +259,4 @@ Response:
 ```
 
 **Error Codes:**
-- 500 Unknown error
+- 500: Unknown error

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './index.css'
 
-const ROOT_URL = "http://localhost:8000"
+const ROOT_URL = import.meta.env.API_ROOT_URL;
 
 function App() {
     const [users, setUsers] = useState([]);

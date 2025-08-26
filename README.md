@@ -42,18 +42,17 @@ The web app will run at http://localhost:5173 by default
 The web app is setup to hit http://localhost:8000 for the backend endpoints. To change the url, edit the ROOT_URL variable in `/frontend/src/App.jsx`
 
 ## Improvements:
-    - Add authentication, use JWT tokens
+    - Add authentication, use JWTs
     - More structured logging
     - Build out further endpoints
         - PUT, DELETE for users, accounts, transfers
-    - Hold common repeated requests in in-memory data structure on server
+    - Hold common repeated requests in an in-memory data structure on server
         - get balance
         - get transfers per account
 
 # API Reference
 
-### Notes:
-- Money is held in cents
+### Note: All money values are held in cents
 
 ### Create User
 **POST** `/users`
@@ -95,7 +94,6 @@ Request:
     "balance": 100
 }
 ```
-Note: balance is in Cents
 
 curl --location 'http://localhost:8000/accounts' \
 --header 'Content-Type: application/json' \
@@ -135,8 +133,6 @@ Request:
 ```
 
 Note: sender_id and receiver_id are account_ids
-
-Note: transfer_amount is in Cents
 
 curl --location 'http://localhost:8000/transfers' \
 --header 'Content-Type: application/json' \

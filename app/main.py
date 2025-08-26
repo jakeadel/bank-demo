@@ -8,6 +8,7 @@ from pydantic import BaseModel
 # Should this be in an init file or something?
 DB_PATH = "./db/bank.db"
 SCHEMA_PATH = "./db/schema.sql"
+TEST_DATA_PATH = "./db/test_data.sql"
 
 app = FastAPI()
 
@@ -385,6 +386,9 @@ def init_db():
 
     with open(SCHEMA_PATH, 'r') as file:
         cursor.executescript(file.read())
+
+    with open(TEST_DATA_PATH, 'r') as test_file:
+        cursor.executescript(test_file.read())
 
     conn.commit()
     conn.close()

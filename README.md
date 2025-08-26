@@ -1,5 +1,7 @@
 # Bank Demo App
 
+Demo site live at: https://jakeadel.github.io/bank-demo/
+
 ## Table of Contents
 - [Backend Install Instructions](#backend-install-instructions)
 - [Frontend Install Instructions](#frontend-install-instructions)
@@ -53,7 +55,7 @@ The web app will run at http://localhost:5173 by default
 The web app is setup to hit http://localhost:8000 for the backend endpoints. To change the target URL, set the VITE_ROOT_URL variable in `.env.local` (dev) or `.env.production` (prod)
 
 ### Demo Data
-Some users, accounts, and transfers are preloaded in schema.sql. schema.sql is executed on server startup in the init_db() function.
+Some users, accounts, and transfers are preloaded in test_data.sql. test_data.sql is executed on server startup in the init_db() function.
 - John (user_id=1)
     - account_name="John's checking", account_id=1, balance=1000 ($10)
     - account_name="John's savings", account_id=2, balance=100 ($1)
@@ -69,7 +71,10 @@ Some users, accounts, and transfers are preloaded in schema.sql. schema.sql is e
     - Hold common repeated requests in an in-memory data structure on server
         - get balance
         - get transfers per account
-    - Use error codes for better frontend error messages
+    - Better frontend UI
+        - Search functionality
+        - Dropdowns instead of text fields for transfer accounts
+        - Display success messages for create and transfer actions
 
 # API Reference
 

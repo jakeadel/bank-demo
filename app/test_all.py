@@ -1,10 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from .main import app, create_conn, get_balance, set_balance
+from .main import app, create_conn 
 
 client = TestClient(app)
-
 
 def test_create_conn():
     generator = create_conn()

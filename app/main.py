@@ -387,6 +387,7 @@ def init_db():
     with open(SCHEMA_PATH, 'r') as file:
         cursor.executescript(file.read())
 
+    # Load in test data
     with open(TEST_DATA_PATH, 'r') as test_file:
         cursor.executescript(test_file.read())
 

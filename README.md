@@ -55,7 +55,9 @@ The web app will run at http://localhost:5173 by default
 The web app is setup to hit http://localhost:8000 for the backend endpoints. To change the target URL, set the VITE_ROOT_URL variable in `.env.local` (dev) or `.env.production` (prod)
 
 ### Demo Data
-Some users, accounts, and transfers are preloaded in test_data.sql. test_data.sql is executed on server startup in the init_db() function.
+For demo purposes the database is wiped and reloaded with test data on server startup.
+Demo users, accounts, and transfers are added in test_data.sql which is executed in the init_db() function.
+**Test Data:**
 - John (user_id=1)
     - account_name="John's checking", account_id=1, balance=1000 ($10)
     - account_name="John's savings", account_id=2, balance=100 ($1)
@@ -65,6 +67,7 @@ Some users, accounts, and transfers are preloaded in test_data.sql. test_data.sq
 ## Improvement Areas:
     - Add authentication, use JWTs
     - More structured logging instead of using print statements
+    - Switch to a db that supports replication
     - Build out further endpoints
         - PUT, DELETE for users, accounts, transfers
         - GET for users/{user_id}, accounts/{account_id}

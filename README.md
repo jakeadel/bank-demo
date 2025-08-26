@@ -80,7 +80,7 @@ Response:
 ```
 
 **Error codes:**
-- 422: Missing required field
+- 422: Missing required field (Handled by Pydantic validation)
 - 400: Blank username
 - 500: Unknown error
 
@@ -115,7 +115,7 @@ Response:
 ```
 
 **Error codes:**
-- 422: Missing required field
+- 422: Missing required field (Handled by Pydantic validation)
 - 400: Negative input balance
 - 404: Unable to find input user
 - 409: Duplicate account name
@@ -156,7 +156,7 @@ Response:
 ```
 
 **Error codes:**
-- 422: Missing required field
+- 422: Missing required field (Handled by Pydantic validation)
 - 400: Sender_id and receiver_id are the same or sender lacks requisite funds
 - 404: Sender or receiver account not found
 - 500: Unknown error
@@ -175,7 +175,7 @@ Response:
 ```
 
 **Error codes:**
-- 422: Missing required field
+- 422: Missing required field (Handled by Pydantic validation)
 - 404: Unable to find account
 - 500: Unknown error
 
@@ -202,7 +202,7 @@ Response:
 }
 ```
 
-**Error codes**
-- 422: Missing required field
+**Error Codes:**
+- 422: Missing required field (Handled by Pydantic validation)
 - 404: Unable to find account
 - 500: Unkown error

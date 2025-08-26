@@ -43,7 +43,7 @@ class CreateUserRequest(BaseModel):
 @app.post("/users")
 def create_user(req: CreateUserRequest, conn=Depends(create_conn)):
     # Logical for this to create an account along with a user. Actually, I don't think so
-    username = req.username
+    username = req.username.strip()
     if username == "":
         raise HTTPException(status_code=400, detail="username cannot be blank")
 
@@ -70,7 +70,7 @@ class CreateAccountRequest(BaseModel):
 
 @app.post("/accounts")
 def create_account(req: CreateAccountRequest, conn=Depends(create_conn)):
-    account_name = req.account_name
+    account_name = req.account_name.strip()
     user_id = req.user_id
     balance = req.balance
     account_id = None

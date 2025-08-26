@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import './index.css'
 
-
 const ROOT_URL = "http://localhost:8000"
 
 function App() {
@@ -370,7 +369,7 @@ async function transfer_funds(sender_id, receiver_id, amount) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({sender_id, receiver_id, amount})
+        body: JSON.stringify({sender_id, receiver_id, transfer_amount: amount})
     });
     if (res.ok) {
         const data = await res.json();

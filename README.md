@@ -1,8 +1,7 @@
 # Bank Demo App
 
 ## Backend Install Instructions:
-    - pip3 install "fastapi[standard]"
-    - requirements.txt
+    - pip install -r requirements.txt
 
 ## Frontend Install Instructions:
 From within the `/frontend` directory:
@@ -17,6 +16,14 @@ fastapi dev main.py
 ```
 
 The backend will run at http://localhost:8000 by default.
+
+### Demo Data
+Some users, accounts, and transfers are preloaded in schema.sql
+- John (user_id=1)
+    - account_name="John's checking", account_id=1, balance=$10.00
+    - account_name="John's savings", account_id=2, balance=$1.00
+- Paul (user_id=2) has accont_name="Paul's account", account_id=3, balance=$5.00
+- Example transfer: John transfers 50 to Paul
 
 ### Run backend tests
 From within the `/app` directory:
@@ -39,8 +46,9 @@ The web app is setup to hit http://localhost:8000 for the backend endpoints. To 
     - More structured logging
     - Build out further endpoints
         - PUT, DELETE for users, accounts, transfers
-    - 
-
+    - Hold common repeated requests in in-memory data structure on server
+        - get balance
+        - get transfers per account
 
 # API Reference
 

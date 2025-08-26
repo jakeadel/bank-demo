@@ -14,6 +14,7 @@
   - [Transfer Funds](#transfer-funds)
   - [Get Account Balance](#get-account-balance)
   - [Get Account Transfer History](#get-account-transfer-history)
+  - [Get Users](#get-users)
 
 ## Backend Install Instructions:
     - pip install -r requirements.txt
@@ -233,7 +234,7 @@ Response:
 - 404: Unable to find account
 - 500: Unkown error
 
-## Get users
+## Get Users
 **GET** /users
 
 ```bash

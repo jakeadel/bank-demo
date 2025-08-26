@@ -18,7 +18,9 @@
 
 ## Backend Install Instructions:
 From within the `/app` directory:
+```bash
     - pip install -r requirements.txt
+```
 
 ## Frontend Install Instructions:
 From within the `/frontend` directory:

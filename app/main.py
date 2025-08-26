@@ -152,7 +152,7 @@ def perform_transfer(sender_id, receiver_id, transfer_amount, conn):
 
     if sender_resulting_balance < 0:
         raise HTTPException(
-            status_code=422,
+            status_code=400,
             detail="Sender account lacks requisite funds"
         )
     
@@ -186,13 +186,13 @@ def perform_transfer(sender_id, receiver_id, transfer_amount, conn):
 class TransferRequest(BaseModel):
     sender_id: int
     receiver_id: int
-    amount: int
+    transfer_amount: int
 
 @app.post("/transfers")
 def transfer_funds(req: TransferRequest, conn=Depends(create_conn)):
     sender_id = req.sender_id
     receiver_id = req.receiver_id
-    transfer_amount = req.amount
+    transfer_amount = req.transfer_amount
     
     if sender_id == receiver_id:
         raise HTTPException(

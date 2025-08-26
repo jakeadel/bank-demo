@@ -91,17 +91,17 @@ def test_transfer_funds():
         json={
             "sender_id": 1,
             "receiver_id": 2,
-            "amount": 100
+            "transfer_amount": 100
         }
     )
-    assert insufficient_res.status_code == 422
+    assert insufficient_res.status_code == 400
 
     bad_user_res = client.post(
         "/transfers",
         json={
             "sender_id": 999,
             "receiver_id": 2,
-            "amount": 100
+            "transfer_amount": 100
         }
     )
     assert bad_user_res.status_code == 404
@@ -111,7 +111,7 @@ def test_transfer_funds():
         json={
             "sender_id": 2,
             "receiver_id": 1,
-            "amount": 200
+            "transfer_amount": 200
         }
     )
     assert res.status_code == 200
